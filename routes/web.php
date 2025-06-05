@@ -12,7 +12,7 @@ use App\Http\Controllers\OrderController;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/user/login');
 });
 
 Route::middleware(['user.auth'])->group(function () {
