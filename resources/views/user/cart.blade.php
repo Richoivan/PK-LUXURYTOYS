@@ -197,14 +197,14 @@
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-
+        // Handle quantity controls
         document.querySelectorAll('.plus-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const input = this.parentNode.querySelector('.quantity-input');
                 const currentValue = parseInt(input.value);
                 if (currentValue < 10) {
                     input.value = currentValue + 1;
-                     Auto-submit form
+                    // Auto-submit form
                     this.closest('.quantity-form').submit();
                 }
             });
@@ -216,32 +216,33 @@
                 const currentValue = parseInt(input.value);
                 if (currentValue > 1) {
                     input.value = currentValue - 1;
-                     Auto-submit form
+                    // Auto-submit form
                     this.closest('.quantity-form').submit();
                 }
             });
         });
 
-      
+        // Handle manual quantity input change
         document.querySelectorAll('.quantity-input').forEach(input => {
             input.addEventListener('change', function() {
                 const value = parseInt(this.value);
                 if (value >= 1 && value <= 10) {
                     this.closest('.quantity-form').submit();
                 } else {
-                    this.value = this.defaultValue;  Reset to original value
+                    this.value = this.defaultValue; // Reset to original value
                 }
             });
         });
 
+        // Handle checkout form submission
         document.getElementById('checkoutForm').addEventListener('submit', function(e) {
             const checkoutBtn = document.getElementById('checkoutBtn');
             
-       
+            // Show loading state
             checkoutBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Processing...';
             checkoutBtn.disabled = true;
             
-      
+            // Form validation
             const requiredFields = ['customer_name', 'address', 'phone', 'email'];
             let isValid = true;
             
@@ -263,7 +264,7 @@
             }
         });
 
-      
+        // Real-time validation
         ['customer_name', 'address', 'phone', 'email'].forEach(fieldName => {
             document.getElementById(fieldName).addEventListener('input', function() {
                 if (this.value.trim()) {
