@@ -251,4 +251,3 @@
 </script> 
 @endsection  
 
-user/home.blade.php
