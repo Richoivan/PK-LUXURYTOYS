@@ -20,14 +20,24 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="fw-bold mb-0">My Orders</h3>
         <div>
-            <select class="form-select form-select-sm">
-                <option value="all">All Orders</option>
-                <option value="pending">Pending</option>
-                <option value="paid">Paid</option>
-                <option value="processing">Processing</option>
-                <option value="delivered">Delivered</option>
-                <option value="completed">Completed</option>
-            </select>
+             <form method="GET" action="{{ route('user.order') }}" class="d-flex align-items-center">
+                <label for="status" class="form-label me-3 mb-0 fw-bold">Filter by Status:</label>
+                <select name="status" id="status" class="form-select" style="width: auto;" onchange="this.form.submit()">
+                    <option value="">All Orders ({{ $statusCounts['all'] }})</option>
+                    <option value="paid" {{ request('status') == 'paid' ? 'selected' : '' }}>
+                        Paid ({{ $statusCounts['paid'] }})
+                    </option>
+                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
+                        Pending ({{ $statusCounts['pending'] }})
+                    </option>
+                    <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>
+                        Expired ({{ $statusCounts['expired'] }})
+                    </option>
+                    <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>
+                        Cancelled ({{ $statusCounts['cancelled'] }})
+                    </option>
+                </select>
+            </form>
         </div>
     </div>
     <div class="card border-0 shadow-sm mb-4">

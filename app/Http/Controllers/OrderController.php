@@ -7,18 +7,35 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Midtrans\Config;
 use Midtrans\Transaction;
+use Illuminate\Http\Request;
+
 
 class OrderController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::where('user_id', auth()->id())
-            ->with(['orderCars.car'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-            
-        return view('user.order', compact('orders'));
+        $status = $request->get('status');
+
+        $ordersQuery = Order::where('user_id', auth()->id())
+            ->with(['orderCars.car', 'user'])
+            ->orderBy('created_at', 'desc');
+
+        if ($status && in_array($status, ['paid', 'pending', 'expired', 'cancelled'])) {
+            $ordersQuery->where('status', $status);
+        }
+
+        $orders = $ordersQuery->paginate(10);
+
+        $statusCounts = [
+            'all' => Order::where('user_id', auth()->id())->count(),
+            'paid' => Order::where('status', 'paid')->where('user_id', auth()->id())->count(),
+            'pending' => Order::where('status', 'pending')->where('user_id', auth()->id())->count(),
+            'expired' => Order::where('status', 'expired')->where('user_id', auth()->id())->count(),
+            'cancelled' => Order::where('status', 'cancelled')->where('user_id', auth()->id())->count(),
+        ];
+
+        return view('user.order', compact('orders', 'status', 'statusCounts'));
     }
     
     public function orderDetail($id)
