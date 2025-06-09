@@ -147,10 +147,7 @@
                         <p class="mb-1 text-muted small">Standard Delivery</p>
                         <p class="mb-0">2-5 business days after payment confirmation</p>
                     </div>
-                    <div class="mb-0">
-                        <p class="mb-1 text-muted small">Premium Delivery</p>
-                        <p class="mb-0">1-2 business days after payment confirmation</p>
-                    </div>
+                    
                 </div>
             </div>
         </div>
